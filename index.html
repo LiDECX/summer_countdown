@@ -548,8 +548,8 @@ body {
 
   <div class="badge">мой первый сайт-проект ✦</div>
 
-  <h1 class="title">Ждём <span class="sun-word">лето</span></h1>
-  <p class="subtitle">обратный отсчёт · summer countdown</p>
+  <h1 class="title">Ждём <span class="sun-word">лето</span>!</h1>
+  <p class="subtitle">2025 — 2026 · обратный отсчёт</p>
 
   <!-- Main progress bar -->
   <div class="progress-section">
@@ -569,6 +569,11 @@ body {
   <!-- Countdown cards -->
   <div class="countdown-grid">
     <div class="unit-card">
+      <span class="unit-num" id="cWeeks">—</span>
+      <span class="unit-label">недель</span>
+      <div class="unit-mini-track"><div class="unit-mini-fill fill-sec" id="bWeeks"></div></div>
+    </div>
+    <div class="unit-card">
       <span class="unit-num" id="cDays">—</span>
       <span class="unit-label">дней</span>
       <div class="unit-mini-track"><div class="unit-mini-fill fill-days" id="bDays"></div></div>
@@ -582,11 +587,6 @@ body {
       <span class="unit-num" id="cMin">—</span>
       <span class="unit-label">минут</span>
       <div class="unit-mini-track"><div class="unit-mini-fill fill-min" id="bMin"></div></div>
-    </div>
-    <div class="unit-card">
-      <span class="unit-num" id="cWeeks">—</span>
-      <span class="unit-label">недель</span>
-      <div class="unit-mini-track"><div class="unit-mini-fill fill-sec" id="bWeeks"></div></div>
     </div>
   </div>
 
