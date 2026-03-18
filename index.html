@@ -304,7 +304,7 @@ body {
 .unit-mini-fill {
   height: 100%;
   border-radius: 100px;
-  transition: width 0.3s ease;
+  transition: width 0.08s linear;
 }
 
 .fill-days  { background: var(--sky); }
@@ -312,58 +312,15 @@ body {
 .fill-min   { background: var(--heat); }
 .fill-sec   { background: var(--wave); }
 
-/* === Seconds row === */
-.seconds-section {
+
+.unit-card-wide {
   width: 100%;
   max-width: 720px;
   margin-top: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  animation: fadeUp 1s ease both;
-  animation-delay: 1.1s;
+  text-align: center;
 }
 
-.seconds-left {
-  flex: none;
-}
-
-.seconds-label {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 4px;
-}
-
-.seconds-big {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: 700;
-  font-size: 1.6rem;
-  color: var(--wave);
-  letter-spacing: -0.02em;
-}
-
-.seconds-track {
-  flex: 1;
-  height: 3px;
-  background: rgba(255,255,255,0.06);
-  border-radius: 100px;
-  overflow: hidden;
-}
-
-.seconds-fill {
-  height: 100%;
-  border-radius: 100px;
-  background: var(--wave);
-  transition: width 0.1s linear;
-}
+.fill-wave { background: var(--wave); }
 
 /* === Season chips === */
 .season-row {
@@ -590,15 +547,11 @@ body {
     </div>
   </div>
 
-  <!-- Seconds row -->
-  <div class="seconds-section">
-    <div class="seconds-left">
-      <span class="seconds-label">секунд до лета</span>
-      <span class="seconds-big" id="cSec">—</span>
-    </div>
-    <div class="seconds-track">
-      <div class="seconds-fill" id="bSec"></div>
-    </div>
+  <!-- Seconds wide card -->
+  <div class="unit-card unit-card-wide">
+    <span class="unit-num" id="cSec">—</span>
+    <span class="unit-label">секунд до лета</span>
+    <div class="unit-mini-track"><div class="unit-mini-fill fill-wave" id="bSec"></div></div>
   </div>
 
   <!-- Season chips -->
@@ -660,30 +613,31 @@ function update() {
   const now = Date.now();
   const diff = Math.max(0, END - now);
 
-  const totalSec  = Math.floor(diff / 1000);
-  const totalMin  = Math.floor(diff / (1000 * 60));
-  const totalHour = Math.floor(diff / (1000 * 60 * 60));
-  const totalDays = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const totalWeeks = (diff / (1000 * 60 * 60 * 24 * 7)).toFixed(1);
+  const totalSec   = Math.floor(diff / 1000);
+  const totalMin   = Math.floor(diff / (1000 * 60));
+  const totalHours = Math.floor(diff / (1000 * 60 * 60));
+  const totalDays  = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const totalWeeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
 
-  const sec  = totalSec  % 60;
-  const min  = totalMin  % 60;
-  const hour = totalHour % 24;
-
-  // Cards
-  document.getElementById('cDays').textContent  = totalDays;
-  document.getElementById('cHours').textContent = pad(hour);
-  document.getElementById('cMin').textContent   = pad(min);
+  // Числа — целые
   document.getElementById('cWeeks').textContent = totalWeeks;
-  document.getElementById('cSec').textContent   = totalSec.toLocaleString('ru');
+  document.getElementById('cDays').textContent  = totalDays;
+  document.getElementById('cHours').textContent = totalHours;
+  document.getElementById('cMin').textContent   = totalMin;
+  document.getElementById('cSec').textContent   = totalSec;
 
-  // Mini bars (show time-within-unit cycle)
-  const MAX_DAYS = 274; // Sept 1 to Jun 1
-  document.getElementById('bDays').style.width  = (totalDays / MAX_DAYS * 100) + '%';
-  document.getElementById('bHours').style.width = (hour / 24 * 100) + '%';
-  document.getElementById('bMin').style.width   = (min / 60 * 100) + '%';
-  document.getElementById('bWeeks').style.width = ((totalDays % 7) / 7 * 100) + '%';
-  document.getElementById('bSec').style.width   = (sec / 60 * 100) + '%';
+  // Ползунки: плавное движение на основе миллисекунд внутри каждого цикла
+  const msInSec  = (diff % 1000) / 1000;           // 0.0–1.0 внутри секунды
+  const msInMin  = (diff % (1000 * 60)) / (1000 * 60);         // внутри минуты
+  const msInHour = (diff % (1000 * 60 * 60)) / (1000 * 60 * 60);       // внутри часа
+  const msInDay  = (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60 * 24);     // внутри суток
+  const msInWeek = (diff % (1000 * 60 * 60 * 24 * 7)) / (1000 * 60 * 60 * 24 * 7); // внутри недели
+
+  document.getElementById('bSec').style.width   = (msInSec   * 100) + '%';
+  document.getElementById('bMin').style.width   = (msInMin   * 100) + '%';
+  document.getElementById('bHours').style.width = (msInHour  * 100) + '%';
+  document.getElementById('bDays').style.width  = (msInDay   * 100) + '%';
+  document.getElementById('bWeeks').style.width = (msInWeek  * 100) + '%';
 
   // Main progress
   const progress = ((now - START) / (END - START)) * 100;
