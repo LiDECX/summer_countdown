@@ -435,24 +435,40 @@ body {
   color: var(--text);
 }
 
-/* === Telegram button === */
-.tg-btn {
+.tg-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* === Buttons row === */
+.btn-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 36px;
+  animation: fadeUp 1s ease both;
+  animation-delay: 1.35s;
+}
+
+.tg-btn, .donate-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 36px;
   padding: 14px 24px;
-  background: rgba(41,182,246,0.1);
-  border: 1px solid rgba(41,182,246,0.3);
   border-radius: 14px;
-  color: #29B6F6;
   text-decoration: none;
   font-family: 'JetBrains Mono', monospace;
   font-size: 12px;
   letter-spacing: 0.08em;
   transition: background 0.2s, border-color 0.2s, transform 0.15s, box-shadow 0.2s;
-  animation: fadeUp 1s ease both;
-  animation-delay: 1.35s;
+}
+
+.tg-btn {
+  background: rgba(41,182,246,0.1);
+  border: 1px solid rgba(41,182,246,0.3);
+  color: #29B6F6;
 }
 
 .tg-btn:hover {
@@ -462,14 +478,21 @@ body {
   box-shadow: 0 8px 24px rgba(41,182,246,0.15);
 }
 
-.tg-btn:active {
-  transform: translateY(0);
+.donate-btn {
+  background: rgba(255,209,102,0.08);
+  border: 1px solid rgba(255,209,102,0.3);
+  color: var(--sun);
 }
 
-.tg-icon {
-  width: 20px;
-  height: 20px;
-  flex-shrink: 0;
+.donate-btn:hover {
+  background: rgba(255,209,102,0.16);
+  border-color: rgba(255,209,102,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,209,102,0.15);
+}
+
+.tg-btn:active, .donate-btn:active {
+  transform: translateY(0);
 }
 
 /* === Footer === */
@@ -604,12 +627,20 @@ body {
 
   <div class="now-display">сейчас: <span id="nowTime">—</span></div>
 
-  <a class="tg-btn" href="https://t.me/LiDECX_system" target="_blank" rel="noopener">
-    <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77-1.9 8.96c-.14.63-.52.78-.96.49l-2.63-1.94-1.27 1.22c-.14.14-.26.26-.54.26l.19-2.72 4.97-4.49c.22-.19-.05-.3-.33-.11L8.13 14.53 5.54 13.7c-.62-.19-.63-.62.13-.92l9.7-3.74c.52-.19.97.13.8.73h-.24z" fill="#29B6F6"/>
-    </svg>
-    мой телеграм-канал · @LiDECX_system
-  </a>
+  <div class="btn-row">
+    <a class="tg-btn" href="https://t.me/LiDECX_system" target="_blank" rel="noopener">
+      <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.93 6.77-1.9 8.96c-.14.63-.52.78-.96.49l-2.63-1.94-1.27 1.22c-.14.14-.26.26-.54.26l.19-2.72 4.97-4.49c.22-.19-.05-.3-.33-.11L8.13 14.53 5.54 13.7c-.62-.19-.63-.62.13-.92l9.7-3.74c.52-.19.97.13.8.73h-.24z" fill="#29B6F6"/>
+      </svg>
+      @LiDECX_system
+    </a>
+    <a class="donate-btn" href="https://dalink.to/mikhailnexora" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.516 3.51 1 6.654 1c1.647 0 3.3.826 4.764 2.589h.001c.46.551.95 1.15 1.581 1.879C14.55 3.786 16.2 1 18.346 1 21.49 1 24 3.516 24 7.191c0 4.105-5.37 8.863-11 14.402l-1 .407-1-.407z" fill="#FFD166"/>
+      </svg>
+      поддержать донатом
+    </a>
+  </div>
 
   <div class="footer">summer countdown · made with ☀️</div>
 
