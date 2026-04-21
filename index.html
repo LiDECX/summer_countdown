@@ -268,11 +268,16 @@
     const themeToggle = document.getElementById('themeToggle');
     const body = document.body;
 
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    body.setAttribute('data-theme', savedTheme);
+    themeToggle.textContent = savedTheme === 'dark' ? 'LIGHT' : 'DARK';
+
     themeToggle.addEventListener('click', () => {
       const isDark = body.getAttribute('data-theme') === 'dark';
       const newTheme = isDark ? 'light' : 'dark';
       body.setAttribute('data-theme', newTheme);
       themeToggle.textContent = isDark ? 'DARK' : 'LIGHT';
+      localStorage.setItem('theme', newTheme);
     });
 
     const dates = {
