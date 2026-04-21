@@ -20,6 +20,18 @@
       --sun: #FFD166;
     }
 
+    [data-theme="light"] {
+      --bg: #ffffff;
+      --surface: #f5f5f5;
+      --border: #e5e5e5;
+      --accent: #1a1a1a;
+      --muted: #888;
+      --text: #444;
+      --bright: #000;
+      --green: #16a34a;
+      --sun: #f59e0b;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -29,6 +41,7 @@
       font-weight: 300;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.2s ease, color 0.2s ease;
     }
 
     .container {
@@ -37,7 +50,30 @@
       padding: 0 24px;
     }
 
-    #hero { padding: 100px 0 60px; }
+    header {
+      padding: 24px 0;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--bright);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      transition: all 0.15s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--surface);
+      border-color: var(--muted);
+    }
+
+    #hero { padding: 40px 0 60px; }
 
     .badge {
       display: inline-flex;
@@ -114,6 +150,7 @@
       padding: 20px;
       border-radius: 12px;
       text-align: center;
+      transition: background 0.2s ease, border-color 0.2s ease;
     }
 
     .unit-val {
@@ -171,7 +208,13 @@
     }
   </style>
 </head>
-<body>
+<body data-theme="dark">
+
+  <div class="container">
+    <header>
+      <button class="theme-toggle" id="themeToggle">LIGHT</button>
+    </header>
+  </div>
 
   <section id="hero">
     <div class="container">
@@ -222,6 +265,16 @@
   </footer>
 
   <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = body.getAttribute('data-theme') === 'dark';
+      const newTheme = isDark ? 'light' : 'dark';
+      body.setAttribute('data-theme', newTheme);
+      themeToggle.textContent = isDark ? 'DARK' : 'LIGHT';
+    });
+
     const dates = {
       autumn: new Date("September 1, 2025 00:00:00").getTime(),
       winter: new Date("December 1, 2025 00:00:00").getTime(),
